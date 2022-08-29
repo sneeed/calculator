@@ -1,85 +1,72 @@
-let clickedNumber = "";
-
 let firstNumber = "";
-let operation = "";
 let secondNumber = "";
+let operation = "";
+let isCleared = "";
+let isLastButtonClickedOperator = false;
 
-let operationSign = "";
-let result = "";
-let isResultInCurrent = false;
+const display = document.querySelector(".current p");
 
-const current = document.querySelector(".current");
-const currentP = document.querySelector(".current p");
-const history = document.querySelector(".history");
+setCleared();
 
 const numberButtons = document.querySelectorAll(".number-button");
-
 numberButtons.forEach((button) => {
   button.addEventListener("click", function () {
-    clickedNumber = this.textContent;
-
-    if (isResultInCurrent) {
-      currentP.textContent = "";
-      isResultInCurrent = false;
+    console.log(this.textContent);
+    if (isCleared) {
+      display.textContent = "";
+      isCleared = false;
     }
-
-    currentP.textContent += this.textContent;
-    operation
-      ? (secondNumber += this.textContent)
-      : (firstNumber += this.textContent);
-    console.log("firstNumber: " + firstNumber);
-    console.log("secondNumber: " + secondNumber);
+    if (isLastButtonClickedOperator) {
+      display.textContent = "";
+      isLastButtonClickedOperator = false;
+    }
+    display.textContent += this.textContent;
   });
 });
 
 const operatorButtons = document.querySelectorAll(".operator-button");
 operatorButtons.forEach((button) => {
   button.addEventListener("click", function () {
-    operation = this.id;
-
-    operationSign = this.textContent;
-    currentP.textContent += operationSign;
-
-    console.log(operation);
+    firstNumber = display.textContent;
+    operation = signToFunction.get(this.textContent);
+    isLastButtonClickedOperator = true;
   });
 });
 
+const operatorMappings = [
+  ["+", "add"],
+  ["-", "substract"],
+  ["×", "multiply"],
+  ["÷", "divide"],
+];
+const signToFunction = new Map(operatorMappings);
+const functionToSign = new Map(
+  operatorMappings.map(([key, value]) => [value, key])
+);
+
 const equalsButton = document.querySelector("#equals");
 equalsButton.addEventListener("click", function () {
-  console.log("operation: " + operation);
+  secondNumber = display.textContent;
+  console.log(`${operation}, ${firstNumber}, ${secondNumber}`);
   result = operate(operation, firstNumber, secondNumber);
 
-  const newHistoryElement = document.createElement("p");
-  newHistoryElement.textContent =
-    firstNumber + operationSign + secondNumber + "=" + result;
-  history.appendChild(newHistoryElement);
+  display.textContent = result;
 
-  currentP.textContent = result;
-  isResultInCurrent = true;
-
-  // scroll history down
-  history.scrollTop = history.scrollHeight;
-
-  firstNumber = "";
+  firstNumber = result;
   secondNumber = "";
   operation = "";
-  operationSign = "";
-  result = "";
 });
 
 const clearButton = document.querySelector("#clear");
-clearButton.addEventListener("click", function () {
-  clickedNumber = "";
+clearButton.addEventListener("click", setCleared());
+
+function setCleared() {
+  display.textContent = "0";
   firstNumber = "";
   operation = "";
   secondNumber = "";
-  result = "";
-
-  currentP.textContent = "";
-  while (history.hasChildNodes()) {
-    history.removeChild(history.lastChild);
-  }
-});
+  isCleared = true;
+}
 
 function operate(operator, num1, num2) {
   return window[operator](num1, num2);

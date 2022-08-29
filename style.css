@@ -7,16 +7,10 @@
   border-radius: 10px;
 }
 
-.history {
-  background-color: rgb(233, 233, 233);
-  overflow-y: scroll;
-  height: 100px;
-  padding: 6px;
-}
-
 .current {
   height: 30px;
   padding: 6px;
+  text-align: right;
 }
 
 .buttons {
