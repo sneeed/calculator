@@ -1,19 +1,29 @@
 .container {
-  min-width: 200px;
-  max-width: 200px;
+  min-width: 230px;
+  max-width: 230px;
   margin: 50px auto;
   padding: 5px;
-  background-color: lightgrey;
+  background-color: rgb(245, 245, 245);
+  border-radius: 10px;
 }
 
 .history {
-  background-color: darkgrey;
+  background-color: rgb(233, 233, 233);
+  overflow-y: scroll;
+  height: 100px;
+  padding: 6px;
+}
+
+.current {
+  height: 30px;
+  padding: 6px;
 }
 
 .buttons {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
+  padding: 3px;
 }
 
 .buttons button {
@@ -22,9 +32,13 @@
   max-width: 50px;
   min-height: 30px;
   max-height: 30px;
-  background-color: darkgrey;
+  background-color: rgb(233, 233, 233);
+  border: 0;
+  border-radius: 5px;
+  margin: 3px;
 }
 
-.highlight {
+.buttons > button > .highlight {
   background-color: lightskyblue;
+  /* TODO read up on specificity */
 }

@@ -57,6 +57,9 @@ equalsButton.addEventListener("click", function () {
   currentP.textContent = result;
   isResultInCurrent = true;
 
+  // scroll history down
+  history.scrollTop = history.scrollHeight;
+
   firstNumber = "";
   secondNumber = "";
   operation = "";
